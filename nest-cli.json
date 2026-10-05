@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/nestars-api/src",
+  "compilerOptions": {
+    "deleteOutDir": true
+  },
+  "monorepo": true,
+  "root": "apps/nestars-api",
+  "projects": {
+    "nestars-api": {
+      "type": "application",
+      "root": "apps/nestars-api",
+      "entryFile": "main",
+      "sourceRoot": "apps/nestars-api/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nestars-api/tsconfig.app.json"
+      }
+    },
+    "nestars-batch": {
+      "type": "application",
+      "root": "apps/nestars-batch",
+      "entryFile": "main",
+      "sourceRoot": "apps/nestars-batch/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/nestars-batch/tsconfig.app.json"
+      }
+    }
+  }
+}
