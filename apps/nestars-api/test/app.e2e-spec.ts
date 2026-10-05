@@ -2,27 +2,43 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
+import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
+import { Member } from '../src/schemas/member.model';
+import { Property } from '../src/schemas/property.model';
 
 describe('AppController (e2e)', () => {
-  let app: INestApplication;
+	let app: INestApplication;
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
+	beforeEach(async () => {
+		const moduleFixture: TestingModule = await Test.createTestingModule({
+			imports: [AppModule],
+		})
+			.overrideProvider(getConnectionToken())
+			.useValue({
+				model: jest.fn().mockReturnValue({}),
+				models: {},
+				close: jest.fn().mockResolvedValue(true),
+			})
+			.overrideProvider(getModelToken(Member.name))
+			.useValue({})
+			.overrideProvider(getModelToken(Property.name))
+			.useValue({})
+			.compile();
 
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
+		app = moduleFixture.createNestApplication();
+		await app.init();
+	});
 
-  afterAll(async () => {
-    await app.close();
-  });
+	afterAll(async () => {
+		if (app) {
+			await app.close();
+		}
+	});
 
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello from Nestars API Server!');
-  });
+	it('/ (GET)', () => {
+		return request(app.getHttpServer())
+			.get('/')
+			.expect(200)
+			.expect('Hello from Nestars API Server!');
+	});
 });
