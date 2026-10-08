@@ -7,6 +7,7 @@ import { AppService } from './app.service';
 import { AppResolver } from './app.resolver';
 import { DatabaseModule } from './database/database.module';
 import { ComponentsModule } from './components/components.module';
+import { SchemaModule } from './schemas/schema.module';
 
 declare module '@nestjs/apollo' {
 	interface ApolloDriverConfig {
@@ -26,6 +27,7 @@ declare module '@nestjs/apollo' {
 			uploads: false,
 		}),
 		DatabaseModule,
+		SchemaModule,
 		ComponentsModule,
 	],
 	controllers: [AppController],
