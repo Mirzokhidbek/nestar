@@ -6,10 +6,17 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 	imports: [
 		MongooseModule.forRootAsync({
 			imports: [ConfigModule],
-			useFactory: async (configService: ConfigService) => ({
-				uri: configService.get<string>('MONGO_URL') ?? 'mongodb://127.0.0.1:27017/nestar',
-			}),
 			inject: [ConfigService],
+			useFactory: async (configService: ConfigService) => {
+				const isProduction = process.env.NODE_ENV === 'production';
+				const uri = isProduction
+					? configService.get<string>('MONGO_PROD')
+					: configService.get<string>('MONGO_DEV');
+
+				return {
+					uri: uri ?? configService.get<string>('MONGO_DEV'),
+				};
+			},
 		}),
 	],
 	exports: [MongooseModule],
