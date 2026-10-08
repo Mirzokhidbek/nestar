@@ -3,8 +3,6 @@ import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 import { getConnectionToken, getModelToken } from '@nestjs/mongoose';
-import { Member } from '../src/schemas/member.model';
-import { Property } from '../src/schemas/property.model';
 
 describe('AppController (e2e)', () => {
 	let app: INestApplication;
@@ -19,9 +17,9 @@ describe('AppController (e2e)', () => {
 				models: {},
 				close: jest.fn().mockResolvedValue(true),
 			})
-			.overrideProvider(getModelToken(Member.name))
+			.overrideProvider(getModelToken('Member'))
 			.useValue({})
-			.overrideProvider(getModelToken(Property.name))
+			.overrideProvider(getModelToken('Property'))
 			.useValue({})
 			.compile();
 
