@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Property, PropertySchema } from '../../schemas/property.model';
+import PropertySchema from '../../schemas/Property.model';
 import { PropertyResolver } from './property.resolver';
 import { PropertyService } from './property.service';
 
@@ -8,7 +8,7 @@ import { PropertyService } from './property.service';
 	imports: [
 		MongooseModule.forFeature([
 			{
-				name: Property.name,
+				name: 'Property',
 				schema: PropertySchema,
 			},
 		]),
